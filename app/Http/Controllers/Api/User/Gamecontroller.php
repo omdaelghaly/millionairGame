@@ -49,11 +49,12 @@ class Gamecontroller extends Controller
 	        $allr = Gameresult::where(['grade_id'=>$gra,'subject_id'=>$subj,'term_id'=>$term,
 	        	'user_id'=>$userid])
 	              // ->orderBy('id', 'DESC')
-	              ->get();
+	              ->first();
 
-	          if($allr[0]){
-	          	    $allr[0]->update([
-                       'mark' => $allr[0]->mark + $marks ,
+	          if($allr){
+
+	          	    $allr->update([
+                       'mark' => $allr->mark + $marks ,
 	          	    ]);
 	          	  	  return response()->json([
                        'status'=>'success' ,

@@ -75,16 +75,21 @@ const app = new Vue({
                      this.$store.commit('setauth',response.data.data);
                       var userx=response.data.data;
 
-                     if(this.$router.currentRoute.name!== 'home' )
-                     {      
+                      
+                         
                         if(userx.verifyemail == 1)
                         {
+                          if(this.$router.currentRoute.name!== 'home' )
+                          {
                             this.$router.push('/');             
-                        }else
-                        {
-                            this.$router.push('/sendverifyemail');             
+                          }
+                                       
+                        }else{
+                         
+                          //this.$router.push('/sendverifyemail');
+                         
                         }
-                     }
+                     
                     
                 }else{
 

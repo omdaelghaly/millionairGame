@@ -100,17 +100,19 @@ export default {
                   this.success=true;              
                   this.msgres = response.data.msg;
                   this.classname="btn btn-success text-center";
-                  this.$store.commit('setvemail', 1);///update store vuex like database
+                  console.log('success');
                   setTimeout(()=>{
-                    this.$router.push('/');                                              
-                   },4000);
+                   this.$store.commit('setvemail', 1);///update store vuex like database
+                   this.$router.push('/');                                              
+                  },4000);
                 }else if(response.data.status=='error')
                 {
                    this.success=true;              
                    this.msgres = response.data.msg;
                    this.classname="btn btn-danger text-center";
+                   console.log('errors');
                    setTimeout(()=>{
-                    this.$router.push('/sendverifyemail');                                              
+                   this.$router.push('/sendverifyemail');                                              
                    },4000);
                 }
 

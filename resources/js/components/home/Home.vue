@@ -29,7 +29,7 @@
           <!-- ============================ -->
 
         <div class="col-xs-12 col-sm-12 col-md-6- col-lg-6 col-xl-6 p-0 m-0"
-          style="background:#d5dbdb;min-height:500px">
+          style="min-height:500px">
           
           <ch></ch>
           
@@ -38,7 +38,7 @@
         <!--==================================== -->
         <div
           class="d-none d-md-none d-lg-block d-xl-block col-xs-12 col-sm-12 col-md-3- col-lg-3 col-xl-3"
-          style="background: #d5dbdb" >
+           >
           <div class="container" style="direction: rtl">
             <br />
 
@@ -79,35 +79,27 @@ export default {
   components:{ch, },
   data() {
     return {
-      user: "",
-      posts: "",
+     
     };
   },
-  methods: {
-    getposts() {
-      axios.get("api/getposts").then((response) => {
-        console.log(response.data.data);
-        this.posts = response.data.data;
-        // save posts in vuex store
-        this.$store.commit("setposts", response.data.data);
-        // let objj={'ggg':'jj','ttttt':'yyyyyyy'};
-        // this.$store.commit('setcomment',objj);
-
-        // this.posts[0].getcomments[0];
-      });
-    },
-    me() {
-      // window.axios.defaults.headers.common['Authorization'] = `Bearer `+this.token;
-
-      axios.post("api/me", { token: this.token }).then((response) => {
-        // console.log(response.data.data);
-        this.user = response.data.data;
-      });
-    },
-  }, //end methods
-  created() {
-    //this.me();
-    //this.getposts()
+  computed:{
+      notverify:function() { 
+         return this.$store.getters.userve;
+      }
+     },
+  watch:{
+       notverify:function(val) {
+              if(val===0)
+              {
+                  this.$router.push('/sendverifyemail');
+              }       
+       }
   },
+  methods: {
+   
+   
+  },
+
+
 };
 </script>

@@ -3,10 +3,10 @@
 		<!--  -->
 
 
-		<div class="col-12 p-0 m-0" style="">
+		<div class="col-12 p-0 m-0 " style="">
 			<div class="row col-12 p-0 m-0">
 
-                   <video  class="col-12 p-0 m-0 " controls 
+                   <video  class="col-12 p-0 m-0 " controls autoplay 
                        :src="channelsrc()" style="object-fit:cover;height:500px">
                    	
                    </video>

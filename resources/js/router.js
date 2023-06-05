@@ -57,7 +57,7 @@ const routes =[
     {path:'/sendverifyemail', component:sendverifyemail ,name:'sendverifyemail' , meta: { title:'sendverifyemail'},
         beforeEnter:(to,from,next)=>{
             if (store.getters.user.token ) {
-         	    if(store.getters.user.verifyemail ==1)
+         	    if(store.getters.userve ==1)
          	      {
          	           return next({name: 'home'});
          	      }else{
@@ -73,14 +73,14 @@ const routes =[
     {path:'/', component:home ,name:'home', 
         beforeEnter:(to,from,next)=>{
             if (store.getters.user ) {
-         	    if(store.getters.user.verifyemail ==1)
+         	    if(store.getters.userve==1)
          	      {
          	           return next();
          	      }else{
-         	           return next({name: 'sendverifyemail'});
+                    // return next({name: 'sendverifyemail'});
          	      }
             }else{
-
+                    
                 return next();
             }
         }
@@ -91,7 +91,7 @@ const routes =[
      {path:'/myprofile', component:myprofile,name:'myprofile',
         beforeEnter:(to,from,next)=>{
             if (store.getters.user ) {
-              if(store.getters.user.verifyemail ==1)
+              if(store.getters.userve ==1)
                 {
                      return next();
                 }else{
@@ -111,7 +111,7 @@ const routes =[
       {path:'/exam-setting', component:examsetting,name:'exam-setting',
         beforeEnter:(to,from,next)=>{
             if (store.getters.user ) {
-              if(store.getters.user.verifyemail ==1)
+              if(store.getters.userve ==1)
                 {
                      return next();
                 }else{
@@ -126,7 +126,7 @@ const routes =[
      {path:'/games', component:games,name:'games',
         beforeEnter:(to,from,next)=>{
             if (store.getters.user ) {
-              if(store.getters.user.verifyemail ==1)
+              if(store.getters.userve ==1)
                 {
                      return next();
                 }else{
@@ -168,6 +168,10 @@ const router = new VueRouter({
     routes ,    
   });
 
+router.beforeEach((to,from,next)=>{
+  console.log('from '+from.name + ' to '+to.name );
+  return next()
+})
 
 
   export default router;

@@ -39,7 +39,7 @@
     <div class="row p-0 m-0  " >
 
 
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8 m-0 p-0 "   >
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8 m-0 p-0 " style="min-height:400px"   >
                  
                  <component v-bind:is="currentComponent"></component>
              

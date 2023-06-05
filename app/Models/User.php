@@ -42,9 +42,9 @@ class User extends Authenticatable
 
       
       
-  //   public function getverifyuser(){
-  //       return $this->hasOne(Verifyuser::class, 'user_id','id');
-  // }
+    public function getverifyuser(){
+        return $this->hasOne(Verifyuser::class, 'user_id','id');
+  }
 
 
       

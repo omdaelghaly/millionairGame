@@ -62,7 +62,8 @@
                         <button id="newquestion" @click="newquestion" style=" margin-top:10px " class="btn btn-info" >
                           START
                         </button>
-                      </div>
+                        </div>
+
                       <p id="omda" style="color:green; "> By <br>MR: Emad Salah   </p>
 
 
@@ -303,6 +304,7 @@ Launch demo modal
   components:{gameheader},
   data(){
    return{
+              numqallowgamestart:20 , // if q<  questions arenot enough to play 
               qrandnum:[],  // all randnumbers to prevevent repeat questions 
               newgq:'',/// new question
               randnum:'',
@@ -319,8 +321,8 @@ Launch demo modal
               startgamevars:{
                 serial:0,
                 timer:0,
-                level1:3,
-                level2:2 ,
+                level1:10,
+                level2:5 ,
                 prog:0,
                 proglevel:1,
                 extratime:300, 
@@ -405,11 +407,11 @@ Launch demo modal
               }
 
             },
-            timeended(correctans){
+            async timeended(correctans){
              $('#sure').prop("disabled",true);
              $('#exit').prop("disabled",true);            
              this.stopallaudio();
-             $("#wrongan").trigger('play');
+             await $("#wrongan").trigger('play');
 
              $("#"+correctans).css({"background":"green"});
              this.showqinfo();
@@ -461,7 +463,7 @@ Launch demo modal
                                       // this.prog = this.prog +1;
                                       this.$store.commit('addprog',1);
                                       this.$store.commit('addproglevel',2); // set new level
-                                      this.$store.commit('addmarks',this.markl1); // add marks
+                                       this.$store.commit('addmarks',this.markl1); // add marks
 
                                       this.addmarks(this.markl1);// save marks 
 
@@ -502,7 +504,7 @@ Launch demo modal
            },16000 );
 
          },
-         checkmyanswer(){
+        async checkmyanswer(){
           $("#btnextratime").prop("disabled",true); 
           $("#sure").prop("disabled",true); 
           $("#exit").prop("disabled",true); 
@@ -511,7 +513,7 @@ Launch demo modal
           let correctanswer = this.newgq.x ;
           clearInterval(this.timerinterval);
           this.stopallaudio();
-          $("#waitan").trigger('play');              
+          await $("#waitan").trigger('play');              
             // console.log(myanswer);console.log(correctanswer);
 
             if(myanswer === correctanswer) {
@@ -570,10 +572,10 @@ Launch demo modal
             $("#vid1")[0].currentTime = 0;
             $("#intro")[0].currentTime = 0;
             $("#intro").trigger('play');
-            const intro = document.getElementById("intro");
-            intro.addEventListener('play',()=> {
+            // const intro = document.getElementById("intro");
+            // intro.addEventListener('play',()=> {
               $("#vid1").trigger('play');
-            }); 
+           // }); 
             setTimeout(function(){
              $("#omda").fadeIn(2000);
            },2000);
@@ -583,14 +585,14 @@ Launch demo modal
               $('#prog').fadeIn(5000);
             },10000);
             setTimeout(function(){
-              if(that.gamequestions.length > 2 ){
+              if(that.gamequestions.length > that.numqallowgamestart ){
                 $("#startgbtn").fadeIn(2000);
               }else {$("#exitg").fadeIn(2000);};
             },14000);  
 
             $("#intro").on('ended',()=>{
-              $("#wait")[0].play();
-              console.log(this.gameresults);
+              $("#wait").trigger('play');
+              //console.log(this.gameresults);
             });
 
 
@@ -598,7 +600,8 @@ Launch demo modal
          getrandnum(){// get random question
           let max = this.gamequestions.length ; let min = 1 ;  
                 let randomnum = Math.floor( Math.random() * (max - min) + min); // get rand number
-                this.randnum = randomnum ;console.log("rand"+randomnum);
+                this.randnum = randomnum ;
+                console.log("rand"+randomnum);
                 if(this.qrandnum.includes(randomnum)){
                   console.log('found in array....');
                   this.getrandnum();                            
@@ -636,7 +639,7 @@ Launch demo modal
                       this.chooserandq(); // choose anther one  
                     }
                   } ,
-                  newquestion(){
+                async newquestion(){
                     $("#sure").prop("disabled",false); 
                     $("#exit").prop("disabled",false); 
                     $("#btnextratime").prop("disabled",false); 
@@ -645,7 +648,7 @@ Launch demo modal
                     $("#startgbtn").fadeOut();
                     this.stopallaudio();
                     this.chooserandq();
-                    $("#newq")[0].play();
+                    await $("#newq").trigger('play');
 
 
                     $('#btndir').show();
@@ -722,10 +725,10 @@ Launch demo modal
           },
           addmarks(marks){
             window.axios.defaults.headers.common['Authorization'] = `Bearer `+this.$store.getters.user.token;
-            console.log(this.gamesettings);
+               // console.log(this.gamesettings);
             axios.post("api/addmarks",{'marks':marks,'gamesettings':this.gamesettings})
             .then((response)=>{
-              console.log(response.data.data);
+              // console.log(response.data.data);
               if(response.data.status=='success')
               {
 
@@ -742,10 +745,11 @@ Launch demo modal
 
 
 
+
          },//end methods
          created(){
            //this.hideall();
-
+          this.gsettings();
 
          },
 

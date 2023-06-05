@@ -6,7 +6,7 @@
 @section('pagecontent')
     
     
-		<div id="app">
+		<div id="app" style="background: #d5dbdb">
   
       <div class="container-fluid m-0 p-0">
          <div class="raw">
@@ -15,18 +15,29 @@
          </div>
       </div>
 
-     
-        <router-view :lang="{{ json_encode(trans('myauth')) }}"></router-view>
+     <div id="vbody" class="">
+        <router-view :lang="{{ json_encode(trans('myauth')) }}" ></router-view>
+       
+     </div>
 
-      <div class="container-fluid m-0 p-0">
+      <div class="container-fluid m-0 p-0 " >
          <div class="raw">
-             <myfooter></myfooter>
+             <myfooter id="vf"></myfooter>
          </div>
       </div>
 
   
 		</div>
 	
+ <script type="text/javascript">
+   var heightPAGE = $(window).height();
+   var heightFOOTER = 300;
+   var eh        = heightPAGE - heightFOOTER ;
+   var minheight = eh+"px";   
+   
+   $("#vbody").css({"min-height":minheight})
+ </script>
+
 @endsection
 
 @section('style')

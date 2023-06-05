@@ -18,10 +18,10 @@
       <li class="nav-item active">
           <router-link to='/' class="nav-link" > {{this.$store.getters.lang.home}} </router-link>
       </li>
-      <li class="nav-item active" v-if="this.$store.getters.user.token" >
+      <li class="nav-item active" v-if="this.$store.getters.userve===1" >
           <router-link to='/exams' class="nav-link" > exams </router-link>
       </li>
-      <li class="nav-item active" v-if="this.$store.getters.user.token" >
+      <li class="nav-item active" v-if="this.$store.getters.userve===1" >
           <router-link to='/games' class="nav-link" > games </router-link>
       </li>
      <!--  <li class="nav-item active">
@@ -29,7 +29,7 @@
       </li> -->
     
    
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" hidden>
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
@@ -66,11 +66,11 @@
 
         </a>
         <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a to="/"   class="dropdown-item">Home</a>
+          <a class="dropdown-item" hidden href="#">Action</a>
+          <a to="/" hidden  class="dropdown-item">Home</a>
       <li class="nav-item active">
-          <router-link to='/myprofile' class="dropdown-item" > profile </router-link>
-          <router-link to='/exam-setting' class="dropdown-item" > exam setting </router-link>
+          <router-link to='/myprofile' class="dropdown-item" v-if="this.$store.getters.userve===1"> profile </router-link>
+          <router-link to='/exam-setting' class="dropdown-item" v-if="this.$store.getters.userlevel===1" > exam setting </router-link>
          <!--  <router-link to='/myprofile' class="dropdown-item" > profile </router-link> -->
       </li>
           <div class="dropdown-divider"></div>
@@ -90,7 +90,7 @@
 </nav>
 
 
-
+<stillnotverified v-if="notverify===0"></stillnotverified>
 
  
 <!--  -->
@@ -109,9 +109,11 @@
 </style>
 
 <script>
+ import stillnotverified from './StillNotVerified'
 
 export default {
 props:['lang','mysite'],
+components:{stillnotverified},
      data(){
         return{
               user:'',
@@ -119,6 +121,14 @@ props:['lang','mysite'],
             
          }
     },
+     computed:{
+      notverify:function() { // notification that u r not verified
+         return this.$store.getters.userve;
+      }
+     },
+     watch:{
+
+     },
      methods:{
         getuserimage(image){
          return 'images/profiles/'+image;

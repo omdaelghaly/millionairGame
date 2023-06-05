@@ -157,7 +157,10 @@ export default {
                             this.$router.push('/');             
                         }else
                         {
+                          if(this.$router.currentRoute.name!== 'sendverifyemail')
+                          {
                             this.$router.push('/sendverifyemail');             
+                          }
                         }
                      
                 }

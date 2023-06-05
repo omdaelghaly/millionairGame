@@ -43,6 +43,9 @@ const store = new Vuex.Store({
         setauth(state, user) {
             state.user = user;
          },
+        setvemail(state, verify) {
+            state.user.verifyemail = verify;
+         },
 
        ///////////////////////grade /subject ////////////
        //save grade
@@ -131,7 +134,7 @@ const store = new Vuex.Store({
           var userid = state.user.id;     
           var index = state.gameresults.findIndex(val=>val.user_id === userid);
                state.myorder = index ;
-               console.log(index);
+              // console.log(index);
                state.myresult = results[index];
             }, 
         setgamevars(state , vars){
@@ -160,19 +163,43 @@ const store = new Vuex.Store({
 
            let allgameresults = state.gameresults ;
            let userid = state.user.id;     
-           var index = allgameresults.findIndex(val=>val.user_id === userid);
+           var userexist = allgameresults.find(val=>val.user_id === userid);
+           if(userexist){ //if user exsits in database 
+       
+           var index = allgameresults.findIndex(val=>val.user_id === userid);         
                allgameresults[index].mark  = allgameresults[index].mark + newmark ;
                state.gameresults = allgameresults.sort((a,b)=>b.mark - a.mark);
-           var upindex = state.gameresults.findIndex(val=>val.user_id === userid);
-               state.myorder = upindex ;   
+           let upindex = state.gameresults.findIndex(val=>val.user_id === userid);
+               state.myorder = upindex ;
+           }else{
+               let newgamer  = {}
+                   newgamer.getuser = state.user;
+                   newgamer.grade_id = state.gamesettings['gra'];
+                   newgamer.subject_id = state.gamesettings['subj'];
+                   newgamer.term_id = state.gamesettings['term'];
+                   newgamer.name = state.user['name']; 
+                   newgamer.mark = newmark;
+                   newgamer.user_id = state.user['id']; 
+               allgameresults.push(newgamer);
+           let upindex = state.gameresults.findIndex(val=>val.user_id === userid);
+               state.myorder = upindex ;
+               state.myresult=state.gameresults.find(val=>val.user_id === userid);
+
+               
+
+           }
+   
 
         },                       
     },
        getters:{
 
-        // level:function(state){
-        //    return state.startgamevars.level ;   
-        // },          
+        userlevel:function(state){
+           return state.user.level ;   
+        },              
+        userve:function(state){
+           return state.user.verifyemail ;   
+        },          
         level1:function(state){
            return state.startgamevars.level1 ;   
         },          
